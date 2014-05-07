@@ -1,0 +1,15 @@
+<div class="milestone <%= @state %>">
+<h3><%= @title %></h3>
+
+<div class="progress-bar">
+  <span class="progress" style="width: <%= helpers.progress(@open_issues,@closed_issues) %>%;">&nbsp;</span>
+  <span class="progress-percent">
+    <%= helpers.progress(@open_issues,@closed_issues).toFixed(0)%>%
+  </span>
+</div>
+<a href="<%= @url %>">link</a>
+
+<div class="description">
+<%= @description %>
+</div>
+</div>

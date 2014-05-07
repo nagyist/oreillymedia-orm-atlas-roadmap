@@ -1,5 +1,76 @@
+$defaultBorderColor: #aaa;
+$light_gray: #eee;
+
 @import 'bourbon/bourbon';
 @import 'neat/neat';
 
 body {
+  font-family: "Merriweather Sans";
+  font-weight: 300;
+}
+
+#wrapper {
+  @include outer-container;
+}
+
+.progress-bar {
+  @include span-columns(12);
+  @include omega();
+
+  background-color: rgba(255,255,255,0.4);
+  // border: 1px solid $defaultBorderColor;
+  border-radius: 3px;
+  height: 1.6em;
+  position: relative;
+  overflow:hidden;
+
+  .progress {
+    background: #107a12;
+    display: block;
+    height: 100%;
+  }
+
+  .progress-percent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    line-height: 1.6em;
+    padding: 0 0.25em;
+  }
+}
+
+.milestone {
+  @include row();
+  padding: 0.33em;
+  margin: 0.33em;
+  color: #ffffff;
+  font-size: 12px;
+
+  h3 {
+    font-weight: 300;
+    text-align: center;
+    padding-top: 0;
+    margin-top: 0;
+  }
+
+  &.open {
+    background-color: rgb(71, 164, 72);
+  }
+
+  &.closed {
+    background-color: rgb(130,130,130);
+  }
+
+  .description {
+    display: block;
+    height: 0;
+    overflow: hidden;
+    // opacity: 0;
+    @include transition (all 0.25s ease-in-out);
+
+    &.active {
+      display: block;
+      min-height: 1em;
+    }
+  }
 }
