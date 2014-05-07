@@ -8,8 +8,13 @@ window.helpers =
       close/(close+open)*100
 
 $ ->
+
+  creation_order = milestones.sortBy((m) -> m.get('created_at'))
+  due_order = milestones.sortBy((m) -> m.get('due_on'))
+  console.log _.first(creation_order).get("created_at")
+  console.log due_order
+
   milestones.each (milestone) ->
-    console.log milestone.attributes
     $('#wrapper').append JST['milestone'](milestone.toJSON())
 
   $('.milestone').click ->
