@@ -13,4 +13,4 @@ $ ->
     $('#wrapper').append JST['milestone'](milestone.toJSON())
 
   $('.milestone').click ->
-    $(@).find('.description').toggleClass('active')
+    $(@).find('.description').toggle()

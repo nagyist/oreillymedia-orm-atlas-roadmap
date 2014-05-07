@@ -62,15 +62,6 @@ body {
   }
 
   .description {
-    display: block;
-    height: 0;
-    overflow: hidden;
-    // opacity: 0;
-    @include transition (all 0.25s ease-in-out);
-
-    &.active {
-      display: block;
-      min-height: 1em;
-    }
+    display: none;
   }
 }

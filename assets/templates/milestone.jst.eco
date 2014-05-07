@@ -7,9 +7,11 @@
     <%= helpers.progress(@open_issues,@closed_issues).toFixed(0)%>%
   </span>
 </div>
-<a href="<%= @url %>">link</a>
-
 <div class="description">
-<%= @description %>
+<% if @description? and @description.length > 0:%>
+<%=@description%>
+<%else:%>
+no description
+<% end %>
 </div>
 </div>
