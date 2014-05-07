@@ -1,15 +1,27 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    activesupport (3.2.15)
+      i18n (~> 0.6, >= 0.6.4)
+      multi_json (~> 1.0)
     addressable (2.3.6)
     coffee-script (2.2.0)
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    eco (1.0.0)
+      coffee-script
+      eco-source
+      execjs
+    eco-source (1.1.0.rc.1)
     execjs (2.0.2)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
     hike (1.2.3)
+    i18n (0.6.5)
+    jbuilder (1.4.2)
+      activesupport (>= 3.0.0)
+      multi_json (>= 1.2.0)
     json (1.8.1)
     multi_json (1.8.2)
     multipart-post (2.0.0)
@@ -50,8 +62,9 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-script
+  eco
+  jbuilder
   json
-  octokit
   rack-flash3
   sass
   shotgun
