@@ -1,5 +1,5 @@
-<div class="milestone <%= @state %>" <% if @duration?:%>style="width:<%= helpers.day_width * helpers.days(@duration) %>px;"<%end%>>
-<h3><%= @title %></h3>
+<div class="milestone <%= @state %>" style="width:<%= helpers.set_width(@)%>;">
+<h3><%= @title %> (<%= @created_at %> <%= @updated_at %>)</h3>
 
 <div class="progress-bar">
   <span class="progress" style="width: <%= helpers.progress(@open_issues,@closed_issues) %>%;">&nbsp;</span>
