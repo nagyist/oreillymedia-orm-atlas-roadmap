@@ -1,4 +1,4 @@
-<div class="milestone <%= @state %>">
+<div class="milestone <%= @state %>" <% if @duration?:%>style="width:<%= helpers.day_width * helpers.days(@duration) %>px;"<%end%>>
 <h3><%= @title %></h3>
 
 <div class="progress-bar">
