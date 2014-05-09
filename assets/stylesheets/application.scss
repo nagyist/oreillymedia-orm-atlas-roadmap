@@ -9,8 +9,12 @@ body {
   font-weight: 300;
 }
 
+#container {
+  margin: auto;
+}
+
 #wrapper {
-  @include outer-container;
+  position: relative;
 }
 
 .progress-bar {
@@ -41,6 +45,7 @@ body {
 
 .milestone {
   @include row();
+  position: relative;
   padding: 0.33em;
   margin: 0.33em;
   color: #ffffff;

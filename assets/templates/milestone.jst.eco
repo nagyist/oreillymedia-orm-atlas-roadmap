@@ -1,17 +1,16 @@
-<div class="milestone <%= @state %>" style="width:<%= helpers.set_width(@)%>;">
-<h3><%= @title %> (<%= @created_at %> <%= @updated_at %>)</h3>
+<div class="milestone <%= @state %>" style="width:<%= classes.helpers.set_width(@)%>px;left:<% classes.helpers.time_position(@created_at) %>px">
+  <h3><%= @title %></h3>
 
-<div class="progress-bar">
-  <span class="progress" style="width: <%= helpers.progress(@open_issues,@closed_issues) %>%;">&nbsp;</span>
-  <span class="progress-percent">
-    <%= helpers.progress(@open_issues,@closed_issues).toFixed(0)%>%
-  </span>
-</div>
-<div class="description">
-<% if @description? and @description.length > 0:%>
-<%=@description%>
-<%else:%>
-no description
-<% end %>
-</div>
+  <div class="progress-bar">
+    <span class="progress" style="width:<%=@progress%>%;">&nbsp;</span>
+    <span class="progress-percent"><%=@progress.toFixed(0)%>%</span>
+  </div>
+
+  <div class="description">
+  <% if @description? and @description.length > 0:%>
+  <%=@description%>
+  <%else:%>
+  no description
+  <%end%>
+  </div>
 </div>
