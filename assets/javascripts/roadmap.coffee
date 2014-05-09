@@ -1,9 +1,10 @@
 classes =
   helpers:
     today: new Date()
-    day_width: 50
-    time_position: (time) ->
-      @days(new Date(time).getTime() - @today.getTime())*@day_width
+    day_width: 25
+    time_position: (time,origin) ->
+      diff = new Date(time).getTime() - origin
+      @days(diff)*@day_width
     set_width: (model) ->
       if model.duration?
         @days(model.duration)*@day_width
@@ -22,6 +23,11 @@ classes.Milestone = Backbone.Model.extend
   initialize: ->
     @set_duration()
     @set_progress()
+    @parse_frontmatter()
+
+  parse_frontmatter: ->
+    if @get('description')?
+      console.log @get('description').match(/^\-\-\-([\s\S]*)\-\-\-/m)
 
   set_progress: ->
     open = @get('open_issues')
@@ -40,24 +46,41 @@ classes.Milestone = Backbone.Model.extend
       time_diff = new Date(@get('updated_at')).getTime() - created_int
     else
       time_diff = 10*24*60*60*1000
-
     @set('duration',time_diff)
 
 classes.Milestones = Backbone.Collection.extend
   model: classes.Milestone
   comparator: 'created_at'
+
   initialize: (models) ->
     console.log models
 
+classes.MilestoneView = Backbone.View.extend
+  initialize: ->
+    @render().el
+
+  render: ->
+    $('#wrapper').append JST['milestone'](@model.toJSON())
+    @
+
+classes.MilestonesView = Backbone.View.extend
+  el: '#wrapper'
+  initialize: ->
+    _.each _.range(0,@collection.length), -> $("#wrapper").append("<div class='row'/>")
+    @render().el
+  render: ->
+    @collection.each (model) ->
+      new classes.MilestoneView model:model
+    setTimeout (-> $('body').scrollLeft(classes.helpers.days(classes.helpers.today)*classes.helpers.day_width)), 100
+    @
+
 window.classes = classes
-window.milestones = new classes.Milestones(data.milestones)
 
 $ ->
-  creation_order = milestones.sortBy((m) -> m.get('created_at'))
-  due_order = milestones.sortBy((m) -> m.get('due_on'))
-
+  window.milestones = new classes.Milestones(data.milestones)
   milestones.sort()
+  window.origin = new Date(milestones.first().get('created_at')).getTime()
 
-  milestones.each (milestone) ->
-    $('#wrapper').append JST['milestone'](milestone.toJSON())
+  milestonesView = new classes.MilestonesView collection:milestones
+
   $('.milestone').click -> $(@).find('.description').toggle()

@@ -1,4 +1,4 @@
-<div class="milestone <%= @state %>" style="width:<%= classes.helpers.set_width(@)%>px;left:<% classes.helpers.time_position(@created_at) %>px">
+<div class="milestone <%= @state %>" style="width:<%= classes.helpers.set_width(@)%>px;left:<%= classes.helpers.time_position(@created_at,origin) %>px">
   <h3><%= @title %></h3>
 
   <div class="progress-bar">

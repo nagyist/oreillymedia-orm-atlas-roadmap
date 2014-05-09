@@ -45,11 +45,11 @@ body {
 
 .milestone {
   @include row();
-  position: relative;
+  position: absolute;
   padding: 0.33em;
   margin: 0.33em;
   color: #ffffff;
-  font-size: 12px;
+  font-size: 10px;
 
   h3 {
     font-weight: 300;
