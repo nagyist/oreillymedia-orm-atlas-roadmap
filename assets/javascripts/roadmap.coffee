@@ -26,6 +26,17 @@ classes =
           if milestone_height > objHeight
             objHeight = milestone_height
         $(this).css('height',objHeight+'px')
+    firstOfMonth: (date) ->
+      d = new Date(date)
+      d.setHours(0)
+      d.setMinutes(0)
+      d.setSeconds(0)
+      d.setMilliseconds(0)
+      d
+    nextMonth: (date) ->
+      d = new Date(date)
+      d.moveToMonth(d.getMonth()+1)
+
 
 classes.Milestone = Backbone.Model.extend
   initialize: ->
@@ -92,6 +103,23 @@ classes.MilestonesView = Backbone.View.extend
   render: ->
     @collection.each (model) ->
       new classes.MilestoneView model:model
+
+    last_date = new Date(@collection.latest().get('due_on') || @collection.latest().get('created_at'))
+    earliest_month = classes.helpers.firstOfMonth(new Date(@collection.earliest().get('created_at')))
+
+    this_month = earliest_month
+
+    while(this_month.getTime() < last_date.getTime())
+      next_month = classes.helpers.nextMonth(this_month)
+
+      left = classes.helpers.time_position(this_month, origin)
+      console.log(left)
+      width = classes.helpers.days(next_month.getTime() - this_month.getTime())*classes.helpers.day_width
+
+      $('.calendar').append JST['month']({month:this_month.getMonthName(), width:width, left:left})
+
+      this_month = next_month
+
 
     setTimeout (->
       $('#wrapper').scrollLeft(classes.helpers.days(classes.helpers.today)*classes.helpers.day_width)

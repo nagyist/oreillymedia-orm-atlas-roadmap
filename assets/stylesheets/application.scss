@@ -35,13 +35,37 @@ body {
   @include outer-container();
   width: 100%;
   max-width: 100%;
-  padding: 0.5em 0;
+  padding: 2em 0 0.5em;
   overflow: auto;
 
   .row {
     @include row();
     min-height: 3em;
     @include box-sizing(border-box);
+  }
+}
+
+
+.calendar {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  text-align: center;
+  font-weight: 600;
+
+  .month {
+    height: 100%;
+    position: absolute;
+    display: block;
+    border-left: 1px solid $defaultBorderColor;
+    border-right: 1px solid $defaultBorderColor;
+    background: white;
+
+    &:nth-child(2n) {
+      background: $lightest_gray;
+    }
   }
 }
 
@@ -123,19 +147,6 @@ body {
 
   .description {
     display: none;
-  }
-}
-
-.calendar {
-  position: absolute;
-
-  .month {
-    height: 100%;
-    background: $lightest_gray;
-    position: absolute;
-    display: block;
-    border-left: 1px solid $defaultBorderColor;
-    border-right: 1px solid $defaultBorderColor;
   }
 }
 

@@ -1,0 +1,3 @@
+<div class="month" style="left:<%= @left %>px;width:<%= @width %>px;">
+  <%= @month %>
+</div>
