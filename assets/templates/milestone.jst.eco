@@ -6,12 +6,4 @@
     <span class="progress" style="width:<%=@progress%>%;">&nbsp;</span>
     <span class="progress-percent"><%=@progress.toFixed(0)%>%</span>
   </div>
-
-  <div class="description">
-  <% if @description? and @description.length > 0:%>
-  <%=@description%>
-  <%else:%>
-  no description
-  <%end%>
-  </div>
 </div>

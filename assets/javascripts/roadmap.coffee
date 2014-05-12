@@ -40,13 +40,21 @@ classes =
 
 classes.Milestone = Backbone.Model.extend
   initialize: ->
-    @set_duration()
-    @set_progress()
     @parse_frontmatter()
 
+
   parse_frontmatter: ->
-    if @get('description')?
-      console.log @get('description').match(/^\-\-\-([\s\S]*)\-\-\-/m)
+    # see if there is frontmatter
+    if @get('description')? and match = @get('description').match(/^\-\-\-([\s\S]*)\-\-\-/m)
+      frontMatter = match[1]
+      frontMatter = YAML.parse(frontMatter)
+      if _.has(frontMatter, 'start')
+        d = new Date(frontMatter.start)
+
+        @set('created_at', "#{d.getFullYear()}/#{d.getMonth()+1}/#{d.getDate()}")
+    @set_duration()
+    @set_progress()
+
 
   set_progress: ->
     open = @get('open_issues')
@@ -104,20 +112,24 @@ classes.MilestonesView = Backbone.View.extend
     @collection.each (model) ->
       new classes.MilestoneView model:model
 
+    # This _should_ work.
     last_date = new Date(@collection.latest().get('due_on') || @collection.latest().get('created_at'))
+
     earliest_month = classes.helpers.firstOfMonth(new Date(@collection.earliest().get('created_at')))
 
     this_month = earliest_month
 
+    # Render the calendar
     while(this_month.getTime() < last_date.getTime())
       next_month = classes.helpers.nextMonth(this_month)
 
       left = classes.helpers.time_position(this_month, origin)
-      console.log(left)
+      # the width should be the length of days between these two months
       width = classes.helpers.days(next_month.getTime() - this_month.getTime())*classes.helpers.day_width
 
+      # Render the month to the page
       $('.calendar').append JST['month']({month:this_month.getMonthName(), width:width, left:left})
-
+      # advance the month for the loop
       this_month = next_month
 
 
@@ -136,8 +148,3 @@ $ ->
   window.origin = new Date(milestones.first().get('created_at')).getTime()
 
   milestonesView = new classes.MilestonesView collection:milestones
-
-
-  $('.milestone').click ->
-    $(this).find('.description').toggle()
-    classes.helpers.setRowHeight()
