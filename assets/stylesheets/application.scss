@@ -18,11 +18,15 @@ body {
   margin: auto;
 }
 
-.navbar {
+.navbar,
+#releases {
   max-width: 68em;
   margin: 1em auto;
-  padding: 0 0.5em;
   @include box-sizing(border-box);
+}
+
+.navbar {
+  padding: 0 0.5em;
 }
 
 #wrapper {
@@ -31,6 +35,7 @@ body {
   @include outer-container();
   width: 100%;
   max-width: 100%;
+  padding: 0.5em 0;
   overflow: auto;
 
   .row {
@@ -131,5 +136,32 @@ body {
     display: block;
     border-left: 1px solid $defaultBorderColor;
     border-right: 1px solid $defaultBorderColor;
+  }
+}
+
+
+.release {
+  background: white;
+  padding: 0.5em 1em;
+  margin: 0 0 1em;
+
+  h2 {
+    color: $defaultFontColor;
+  }
+
+  h3 {
+    font-size: 1em;
+    line-height: 1.2em;
+    color: $medium_gray;
+  }
+
+  h4 {
+    margin: 0 0 2em;
+  }
+
+  .avatar {
+    @include border-radius($defaultBorderRadius);
+    width: 24px;
+    height: 24px;
   }
 }

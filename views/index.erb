@@ -14,5 +14,17 @@
     <div id="wrapper">
       <div class="calendar"></div>
     </div>
+
+    <div id="releases">
+      <h2>Releases</h2>
+      <% @releases.each do |release| %>
+      <div class="release">
+        <h3><%= release.created_at.strftime("%B %d, %Y") %></h3>
+        <h2><%= release.tag_name %> &mdash; <%= release.name %></h2>
+        <h4><img class="avatar" src="<%= release.author.avatar_url %>"/> <%= release.author.login %></h4>
+        <div><%= release.body %></div>
+      </div>
+      <% end %>
+    </div>
   </body>
 </html>
