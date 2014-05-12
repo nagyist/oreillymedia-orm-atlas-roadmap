@@ -15,10 +15,12 @@ body {
 
 #wrapper {
   position: relative;
+  @include outer-container();
 
   .row {
     @include row();
-    height: 6em;
+    min-height: 3em;
+    @include box-sizing(border-box);
   }
 }
 
@@ -53,9 +55,9 @@ body {
   @include box-sizing(border-box);
   position: absolute;
   padding: 0.33em;
-  margin: 0.33em;
+  margin: 0 0.33em 0.33em;
   color: #ffffff;
-  font-size: 10px;
+  font-size: 9px;
 
   h3 {
     font-weight: 300;

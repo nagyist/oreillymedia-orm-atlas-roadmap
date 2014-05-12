@@ -74,12 +74,23 @@ classes.MilestoneView = Backbone.View.extend
 classes.MilestonesView = Backbone.View.extend
   el: '#wrapper'
   initialize: ->
-    _.each _.range(0,@collection.length/3), -> $("#wrapper").append("<div class='row'/>")
+    _.each _.range(0,@collection.length / 3), -> $("#wrapper").append("<div class='row'/>")
     @render().el
   render: ->
     @collection.each (model) ->
       new classes.MilestoneView model:model
-    setTimeout (-> $('body').scrollLeft(classes.helpers.days(classes.helpers.today)*classes.helpers.day_width)), 100
+    setTimeout (->
+      $('body').scrollLeft(classes.helpers.days(classes.helpers.today)*classes.helpers.day_width)
+
+      $('.row').each ->
+        objHeight = 0
+        $(this).find('.milestone').each ->
+          milestone_height = $(@).css('height').replace(/px/,'')
+          console.log milestone_height
+          if milestone_height > objHeight
+            objHeight = milestone_height
+        $(this).css('height',objHeight+'px')
+    ), 100
     @
 
 window.classes = classes
