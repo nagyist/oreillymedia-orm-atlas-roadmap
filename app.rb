@@ -17,9 +17,18 @@ class AtlasRoadmap < Sinatra::Base
     @releases = github_user.api.releases(repo_name)
 
     @data = Jbuilder.encode do |json|
-      json.milestones @milestones,
-        :open_issues, :closed_issues, :state, :created_at, :updated_at,
-        :due_on, :title, :description, :url
+      json.milestones @milestones do |milestone|
+        puts milestone.created_at
+        json.open_issues    milestone.open_issues
+        json.closed_issues  milestone.closed_issues
+        json.state          milestone.state
+        json.created_at     milestone.created_at.asctime
+        json.updated_at     milestone.updated_at.asctime
+        json.due_on         milestone.due_on ? milestone.due_on.asctime : nil
+        json.title          milestone.title
+        json.description    milestone.description
+        json.number            milestone.number
+      end
       json.releases @releases,
         :html_url, :tag_name, :name, :body, :published_at,
         :draft, :prerelease, :created_at

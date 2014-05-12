@@ -50,8 +50,7 @@ classes.Milestone = Backbone.Model.extend
       frontMatter = YAML.parse(frontMatter)
       if _.has(frontMatter, 'start')
         d = new Date(frontMatter.start)
-
-        @set('created_at', "#{d.getFullYear()}/#{d.getMonth()+1}/#{d.getDate()}")
+        @set('created_at', "#{d}")
     @set_duration()
     @set_progress()
 
@@ -109,6 +108,7 @@ classes.MilestonesView = Backbone.View.extend
     @render().el
 
   render: ->
+    @collection.sort()
     @collection.each (model) ->
       new classes.MilestoneView model:model
 
@@ -144,7 +144,5 @@ window.classes = classes
 
 $ ->
   window.milestones = new classes.Milestones(data.milestones)
-  milestones.sort()
   window.origin = new Date(milestones.first().get('created_at')).getTime()
-
   milestonesView = new classes.MilestonesView collection:milestones
