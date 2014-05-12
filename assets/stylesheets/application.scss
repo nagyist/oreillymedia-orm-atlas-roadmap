@@ -2,6 +2,7 @@ $defaultBorderColor: #aaa;
 $light_gray: #eee;
 
 @import 'bourbon/bourbon';
+@import 'grid_settings';
 @import 'neat/neat';
 
 body {
@@ -16,6 +17,10 @@ body {
 #wrapper {
   position: relative;
   @include outer-container();
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
+  border: 1px solid black;
 
   .row {
     @include row();

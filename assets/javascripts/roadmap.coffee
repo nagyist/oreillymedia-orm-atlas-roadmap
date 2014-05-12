@@ -80,7 +80,7 @@ classes.MilestonesView = Backbone.View.extend
     @collection.each (model) ->
       new classes.MilestoneView model:model
     setTimeout (->
-      $('body').scrollLeft(classes.helpers.days(classes.helpers.today)*classes.helpers.day_width)
+      $('#wrapper').scrollLeft(classes.helpers.days(classes.helpers.today)*classes.helpers.day_width)
 
       $('.row').each ->
         objHeight = 0
