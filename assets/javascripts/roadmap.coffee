@@ -3,7 +3,7 @@ classes =
     today: new Date()
     day_width: 25
     time_position: (time,origin) ->
-      diff = new Date(time).getTime() - origin
+      diff = (new Date(time)).getTime() - origin
       @days(diff)*@day_width
     set_width: (model) ->
       if model.duration?
@@ -18,6 +18,14 @@ classes =
         0
       else
         close/(close+open)*100
+    setRowHeight: ->
+      $('.row').each ->
+        objHeight = 0
+        $(this).find('.milestone').each ->
+          milestone_height = $(@).css('height').replace(/px/,'')
+          if milestone_height > objHeight
+            objHeight = milestone_height
+        $(this).css('height',objHeight+'px')
 
 classes.Milestone = Backbone.Model.extend
   initialize: ->
@@ -51,6 +59,8 @@ classes.Milestone = Backbone.Model.extend
 classes.Milestones = Backbone.Collection.extend
   model: classes.Milestone
   comparator: 'created_at'
+  earliest: -> @min (m) -> (new Date(m.get('created_at'))).getTime()
+  latest: -> @max (m) -> (new Date(m.get('created_at'))).getTime()
 
 classes.MilestoneView = Backbone.View.extend
   initialize: ->
@@ -62,13 +72,15 @@ classes.MilestoneView = Backbone.View.extend
   render: ->
     # Go through each row, if it has children, see if the position of this view
     # would overlap with the last child of the row.
+    content = JST['milestone'](@model.toJSON())
     for row in $("#wrapper .row")
       if $(row).children().length is 0
-        $(row).append JST['milestone'](@model.toJSON())
+        $(row).append content
         break
       else if $(row).children().last().position().left+$(row).children().last().width() < @left_position()
-        $(row).append JST['milestone'](@model.toJSON())
+        $(row).append content
         break
+
     @
 
 classes.MilestonesView = Backbone.View.extend
@@ -76,20 +88,15 @@ classes.MilestonesView = Backbone.View.extend
   initialize: ->
     _.each _.range(0,@collection.length / 3), -> $("#wrapper").append("<div class='row'/>")
     @render().el
+
   render: ->
     @collection.each (model) ->
       new classes.MilestoneView model:model
+
     setTimeout (->
       $('#wrapper').scrollLeft(classes.helpers.days(classes.helpers.today)*classes.helpers.day_width)
 
-      $('.row').each ->
-        objHeight = 0
-        $(this).find('.milestone').each ->
-          milestone_height = $(@).css('height').replace(/px/,'')
-          console.log milestone_height
-          if milestone_height > objHeight
-            objHeight = milestone_height
-        $(this).css('height',objHeight+'px')
+      classes.helpers.setRowHeight()
     ), 100
     @
 
@@ -102,4 +109,7 @@ $ ->
 
   milestonesView = new classes.MilestonesView collection:milestones
 
-  $('.milestone').click -> $(@).find('.description').toggle()
+
+  $('.milestone').click ->
+    $(this).find('.description').toggle()
+    classes.helpers.setRowHeight()

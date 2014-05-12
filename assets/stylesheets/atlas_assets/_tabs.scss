@@ -1,0 +1,65 @@
+.tabs-container {
+  @include clearfix();
+
+  .tabs {
+    list-style: none;
+    margin-top: 0;
+    padding: 0;
+    background: $defaultBackgroundColor;
+    border: 1px solid $defaultBorderColor;
+    @include border-radius($defaultBorderRadius);
+  }
+
+  .tabs li {
+    @include box-sizing(border-box);
+    list-style: none;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    padding: 1em;
+    width: 100%;
+    border-bottom: 1px dashed $defaultBorderColor;
+
+    &:last-child {
+      border: none;
+    }
+
+    .list-icon {
+      display: none;
+    }
+
+    &:hover {
+      color: $blue;
+      cursor: pointer;
+    }
+
+    &.active .list-icon {
+      display: block;
+      float: right;
+    }
+  }
+
+  .tabs.horizontal li {
+    width: auto;
+    float: left;
+    display: block;
+    border-bottom: none;
+    border-right: 1px solid $defaultBorderColor;
+
+    &:last-child { border-right: none; }
+
+    &.active {
+      border-bottom: 2px solid $defaultLinkColor;
+    }
+  }
+
+  .tab-pane {
+    @include box-sizing(border-box);
+    display: none;
+
+    &.active {
+      display: block;
+    }
+  }
+}
+

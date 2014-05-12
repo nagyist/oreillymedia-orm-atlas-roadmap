@@ -1,0 +1,61 @@
+.box {
+	background-color: $defaultBackgroundColor;
+	border: 1px solid $defaultBorderColor;
+	@include border-radius($defaultBorderRadius);
+	margin-bottom: 10px;
+}
+
+.box .box-inner {
+	background-color: white;
+	padding: 15px;
+	@include clearfix();
+}
+
+.box .box-top {
+	padding: 8px 10px;
+	border-bottom: 1px solid $defaultBorderColor;
+}
+
+.box .box-bottom {
+	padding: 8px 10px;
+	border-top: 1px solid $defaultBorderColor;
+}
+
+.box .box-inner *:first-child {
+	margin-top: 0;
+}
+
+.box .box-inner *:last-child {
+	margin-bottom: 0;
+}
+
+.box .list {
+	border: none;
+	background-color: white;
+}
+
+.box .list.list-gray {
+	border: none;
+}
+
+/* Remove padding from nested elements
+--------------------------------------------------------- */
+
+.box .box-top input {
+	margin: 0;
+}
+
+.box .box-top h3 {
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+/* Box Styles
+--------------------------------------------------------- */
+
+.box.box-white {
+	background-color: $white;
+}

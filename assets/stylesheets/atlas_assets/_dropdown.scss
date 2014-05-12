@@ -1,0 +1,33 @@
+@import "atlas_assets/variables";
+
+.dropdown {
+  display: inline-block;
+  padding: 0 0 10px;
+  position: relative;
+  font-size: 13px;
+
+  .helper {
+    color: $medium_gray;
+    vertical-align: middle;
+  }
+
+  .dropdown-with-helper-container {
+    display: inline-block;
+  }
+
+  .chosen-container {
+    .chosen-single,
+    .chosen-choices {
+      @include border-radius($defaultBorderRadius);
+    }
+  }
+
+  .chosen-container-multi .chosen-results,
+  .chosen-container-multi .chosen-drop, {
+    @include border-radius($defaultBorderRadius);
+  }
+}
+
+.dropdown[class*="span"] {
+  margin-left: 0;
+}

@@ -1,0 +1,117 @@
+.list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border: 1px solid $lighter_gray;
+	@include border-radius($defaultBorderRadius);
+	a {
+			text-decoration: none;
+	}
+}
+
+.list .list-item {
+	border-bottom: 1px dashed $gray;
+	margin: 0;
+	padding: 0;
+
+	&:last-child {
+		border-bottom: none;
+	}
+}
+
+/* Variations
+---------------------------------------------------------- */
+
+.list.list-gray {
+	border: 1px solid $defaultBorderColor;
+	background: $defaultBackgroundColor;
+}
+
+/* List Sizes
+---------------------------------------------------------- */
+
+.list.list-small {
+	font-size: 13px;
+}
+
+.list.list-small .list-item.list-padding {
+	padding: 8px 10px;
+}
+
+.list.list-medium {
+	font-size: 16px;
+}
+
+.list.list-medium .list-item.list-padding {
+	padding: 12px 15px;
+}
+
+.list.list-large {
+	font-size: 18px;
+}
+
+.list.list-large .list-item.list-padding {
+	padding: 15px 10px;
+}
+
+/* List Padding
+---------------------------------------------------------- */
+
+.list .list-padding {
+	padding: 13px 15px 13px 10px;
+}
+
+/* List Icon
+---------------------------------------------------------- */
+
+.list i.list-icon {
+	float: right;
+	color: $gray;
+}
+
+.list a:hover i.list-icon,
+.list i.list-icon:hover {
+	text-decoration: none;
+}
+
+/* Linked Lists
+_________________________________________________________________ */
+.list a.list-padding {
+	display: block;
+}
+
+/* Linked Lists + Icons outside of the link
+_________________________________________________________________ */
+.list .has-icon-outside-link {
+	padding-right: 8px;
+	a.list-padding, div.list-padding {
+		width: 87%; // works till about 375px
+		display: inline-block;
+	}
+	.list-icon {
+		margin-top: 13px;
+	}
+	.list-icon:hover {
+		color: $black;
+		cursor: pointer;
+	}
+}
+
+// for lists with width smaller than 375px
+.list.list-skinny .has-icon-outside-link {
+	a.list-padding, div.list-padding {
+		width: 70%;
+	}
+}
+
+/* List Helpers
+_________________________________________________________________ */
+
+ul.clean, ul.clean li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+
+

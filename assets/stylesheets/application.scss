@@ -1,26 +1,37 @@
-$defaultBorderColor: #aaa;
-$light_gray: #eee;
-
+@import 'atlas_assets';
 @import 'bourbon/bourbon';
 @import 'grid_settings';
 @import 'neat/neat';
 
+html {
+  background-color: $lighter_gray;
+}
+
 body {
   font-family: "Merriweather Sans";
   font-weight: 300;
+  margin: 0;
+  padding: 0;
 }
 
 #container {
   margin: auto;
 }
 
+.navbar {
+  max-width: 68em;
+  margin: 1em auto;
+  padding: 0 0.5em;
+  @include box-sizing(border-box);
+}
+
 #wrapper {
+  background-color: $white;
   position: relative;
   @include outer-container();
   width: 100%;
   max-width: 100%;
   overflow: auto;
-  border: 1px solid black;
 
   .row {
     @include row();
@@ -57,18 +68,38 @@ body {
 
 .milestone {
   border: 1px solid white;
+  @include border-radius($defaultBorderRadius);
   @include box-sizing(border-box);
   position: absolute;
   padding: 0.33em;
   margin: 0 0.33em 0.33em;
-  color: #ffffff;
-  font-size: 9px;
+  color: $white;
+  font-size: 10px;
 
   h3 {
-    font-weight: 300;
+    color: $white;
+    font-size: 12px;
+    line-height: 1.2em;
+    font-weight: 400;
     text-align: center;
     padding-top: 0;
     margin-top: 0;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  a.permalink {
+    color: inherit;
+    position: absolute;
+    top: 1px;
+    right: 3px;
+
+    &:hover {
+      text-decoration: none;
+      color: $defaultLinkColor;
+    }
   }
 
   &.open {
@@ -76,10 +107,29 @@ body {
   }
 
   &.closed {
-    background-color: rgb(130,130,130);
+    background-color: $light_gray;
+
+    &,h3 {color: $defaultFontColor; }
+
+    .progress {
+      background-color: $green;
+    }
   }
 
   .description {
     display: none;
+  }
+}
+
+.calendar {
+  position: absolute;
+
+  .month {
+    height: 100%;
+    background: $lightest_gray;
+    position: absolute;
+    display: block;
+    border-left: 1px solid $defaultBorderColor;
+    border-right: 1px solid $defaultBorderColor;
   }
 }

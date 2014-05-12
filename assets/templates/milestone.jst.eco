@@ -1,5 +1,6 @@
 <div class="milestone <%= @state %>" style="width:<%= classes.helpers.set_width(@)%>px;left:<%= classes.helpers.time_position(@created_at,origin) %>px">
   <h3><%= @title %></h3>
+  <a class="permalink" href="<%= @url %>"><i class="glyphicons link"></i></a>
 
   <div class="progress-bar">
     <span class="progress" style="width:<%=@progress%>%;">&nbsp;</span>

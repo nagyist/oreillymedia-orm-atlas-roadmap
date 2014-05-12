@@ -1,0 +1,162 @@
+.btn {
+  color: $defaultFontColor;
+	display: inline-block;
+  border: 1px solid $defaultBorderColor;
+  background: $defaultBackgroundColor;
+	cursor: pointer;
+	padding: 4px 12px;
+	text-decoration: none;
+	@include border-radius($defaultBorderRadius);
+	outline: none;
+	@include smooth();
+}
+
+a.btn:hover {
+  text-decoration: none;
+}
+
+.btn:hover, .btn:focus {
+	background: $lightest_blue;
+  border: 1px solid $lighter_blue
+}
+
+/* Sizes
+_________________________________________________________________ */
+
+.btn.btn-small {
+	font-size: 12px;
+	padding: 5px 10px;
+}
+
+.btn.btn-medium {
+	font-size: 17px;
+	padding: 7px 16px;
+	@include border-radius($defaultBorderRadiusMedium);
+}
+
+.btn.btn-large {
+	font-size: 22px;
+	padding: 12px 25px;
+	line-height: 26px;
+	@include border-radius($defaultBorderRadiusLarge);
+}
+
+/* Variations
+_________________________________________________________________ */
+
+.btn.btn-info, .btn.info {
+  border-color: $darker_blue;
+	background-color: $blue;
+  color: white;
+  &:hover {
+    background-color: $light_blue;
+  }
+}
+
+@-moz-keyframes loadingKeyframes
+{
+  0%   {
+    background:$blue;
+    border-color: $darker_blue;
+  }
+  50%  {
+    background:#a9cce3;
+    border-color: $blue;
+  }
+  100% {
+    background:$blue;
+    border-color: $darker_blue;
+  }
+}
+
+@-webkit-keyframes loadingKeyframes
+{
+  0%   {
+    background:$blue;
+    border-color: $darker_blue;
+  }
+  50%  {
+    background:#a9cce3;
+    border-color: $blue;
+  }
+  100% {
+    background:$blue;
+    border-color: $darker_blue;
+  }
+}
+
+.btn.btn-working, .btn.working {
+  border-color: $darker_blue;
+  background-color: $darker_blue;
+  color: white;
+  animation:loadingKeyframes 2s;
+  -moz-animation:loadingKeyframes 2s infinite;
+  -webkit-animation:loadingKeyframes 2s infinite;
+  &:hover {
+    cursor: wait;
+  }
+}
+
+.btn.btn-error, .btn.error {
+  border-color: $darker_red;
+	background-color: $red;
+  color: white;
+  &:hover {
+    background-color: $light_red;
+  }
+}
+
+.btn.btn-success, .btn.success {
+  border-color: $darker_green;
+	background-color: $green;
+  color: white;
+  &:hover {
+    background-color: $light_green;
+  }
+}
+
+.btn.btn-warning, .btn.warning {
+  border-color: $darker_yellow;
+  background-color: $yellow;
+  color: white;
+  &:hover {
+    background-color: $light_yellow;
+  }
+}
+
+.btn.btn-disabled, .btn.disabled {
+  cursor: not-allowed;
+	color: $mid_gray;
+
+  &:hover {
+    border: 1px solid $defaultBorderColor;
+    background-color: $defaultBackgroundColor;
+  }
+}
+
+/* Close button
+_________________________________________________________________ */
+
+.close {
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: $baseLineHeight;
+  color: $black;
+  @include opacity(20);
+  &:hover,
+  &:focus {
+    color: $black;
+    text-decoration: none;
+    cursor: pointer;
+    @include opacity(40);
+  }
+}
+
+button.close {
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
+}
