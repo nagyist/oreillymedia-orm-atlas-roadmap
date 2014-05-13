@@ -1,4 +1,4 @@
-atlas =
+map =
   helpers:
     today: new Date()
     day_width: 25
@@ -33,7 +33,7 @@ atlas =
       d.moveToMonth(d.getMonth()+1)
 
 
-atlas.Milestone = Backbone.Model.extend
+map.Milestone = Backbone.Model.extend
   initialize: ->
     @parse_frontmatter()
 
@@ -54,12 +54,11 @@ atlas.Milestone = Backbone.Model.extend
     output += "#### Start Date: #{(new Date(@get('created_at'))).toDateString()}\n"
     output += "#### Due On: #{(new Date(@get('due_on'))).toDateString()}\n" if @get('due_on')?
     output += @get('description') || ""
-    console.log output
     marked(output)
 
   set_position: (baseTime) ->
-    left = atlas.helpers.time_position(@get('created_at'),baseTime)
-    width = atlas.helpers.days(@get('duration'))*atlas.helpers.day_width
+    left = map.helpers.time_position(@get('created_at'),baseTime)
+    width = map.helpers.days(@get('duration'))*map.helpers.day_width
     @set({left:left, width:width})
 
   set_progress: ->
@@ -81,14 +80,14 @@ atlas.Milestone = Backbone.Model.extend
       time_diff = 10*24*60*60*1000
     @set('duration',time_diff)
 
-atlas.Milestones = Backbone.Collection.extend
-  model: atlas.Milestone
+map.Milestones = Backbone.Collection.extend
+  model: map.Milestone
   comparator: 'created_at'
   earliest: -> @min (m) -> (new Date(m.get('created_at'))).getTime()
   latest: -> @max (m) -> (new Date(m.get('created_at'))).getTime()
   origin: -> new Date(@earliest().get('created_at')).getTime()
 
-atlas.MilestoneView = Backbone.View.extend
+map.MilestoneView = Backbone.View.extend
   className: -> "milestone " + @model.get('state')
   initialize: -> @model.set_position(@model.collection.origin())
 
@@ -107,7 +106,7 @@ atlas.MilestoneView = Backbone.View.extend
       constrainToWindow: true
     @
 
-atlas.MilestonesView = Backbone.View.extend
+map.MilestonesView = Backbone.View.extend
   el: '#wrapper'
   initialize: ->
     _.each _.range(0,@collection.length / 3), -> $("#wrapper").append("<div class='row'/>")
@@ -118,16 +117,16 @@ atlas.MilestonesView = Backbone.View.extend
     last_date = new Date(@collection.latest().get('due_on') || @collection.latest().get('created_at'))
     last_timestamp = last_date.getTime()
 
-    this_month = atlas.helpers.firstOfMonth(@collection.earliest().get('created_at'))
+    this_month = map.helpers.firstOfMonth(@collection.earliest().get('created_at'))
 
     # Render the calendar, setting the width of each month based on time
     # between start of this month and the end of the next. Append to the page
     # and increment the month
     while(this_month.getTime() < last_timestamp)
-      next_month = atlas.helpers.nextMonth(this_month)
+      next_month = map.helpers.nextMonth(this_month)
 
-      left = atlas.helpers.time_position(this_month, @collection.origin())
-      width = atlas.helpers.days(next_month.getTime() - this_month.getTime())*atlas.helpers.day_width
+      left = map.helpers.time_position(this_month, @collection.origin())
+      width = map.helpers.days(next_month.getTime() - this_month.getTime())*map.helpers.day_width
 
       $('.calendar').append JST['month']({month:this_month.getMonthName(), width:width, left:left})
 
@@ -137,7 +136,7 @@ atlas.MilestonesView = Backbone.View.extend
     t = @
     @collection.sort()
     @collection.each (model) ->
-      view = new atlas.MilestoneView model:model
+      view = new map.MilestoneView model:model
       for row in $("#wrapper .row")
         if $(row).children().length is 0
           $(row).append view.render().el
@@ -148,12 +147,12 @@ atlas.MilestonesView = Backbone.View.extend
     @renderCalendar()
 
     setTimeout (->
-      $('#wrapper').scrollLeft(atlas.helpers.days(atlas.helpers.today)*atlas.helpers.day_width)
-      atlas.helpers.setRowHeight()
+      $('#wrapper').scrollLeft(map.helpers.days(map.helpers.today)*map.helpers.day_width)
+      map.helpers.setRowHeight()
     ), 100
     @
 
 $ ->
-  milestones = new atlas.Milestones(data.milestones)
+  milestones = new map.Milestones(data.milestones)
   origin = new Date(milestones.first().get('created_at')).getTime()
-  milestonesView = new atlas.MilestonesView collection:milestones
+  milestonesView = new map.MilestonesView collection:milestones
