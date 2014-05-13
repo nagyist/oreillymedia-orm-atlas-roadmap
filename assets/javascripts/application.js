@@ -5,5 +5,6 @@
 //= require libraries/yaml
 //= require libraries/drop
 //= require libraries/select
+//= require libraries/marked.min
 //= require_tree ../templates
 //= require roadmap

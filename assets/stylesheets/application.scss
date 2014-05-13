@@ -172,3 +172,21 @@ body {
     height: 24px;
   }
 }
+
+.drop-element.drop-theme-arrows,
+.drop-content {
+  font-size: 12px;
+  max-width: 30em;
+}
+
+.drop-element.drop-theme-arrows .drop-content {
+  background: $white;
+  @include border-radius($defaultBorderRadius);
+
+  h3 {}
+  h4 {
+    margin: 0;
+    padding: 0;
+    line-height: 1.4em;
+  }
+}

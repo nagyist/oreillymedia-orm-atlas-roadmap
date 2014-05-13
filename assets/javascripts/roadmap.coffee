@@ -40,13 +40,22 @@ atlas.Milestone = Backbone.Model.extend
   parse_frontmatter: ->
     # see if there is frontmatter
     if @get('description')? and match = @get('description').match(/^\-\-\-([\s\S]*)\-\-\-/m)
-      frontMatter = match[1]
-      frontMatter = YAML.parse(frontMatter)
-      if _.has(frontMatter, 'start')
-        d = new Date(frontMatter.start)
+      descrip = @get('description')
+      @set('description', descrip.replace(/^\-\-\-([\s\S]*)\-\-\-/m,""))
+      @frontMatter = YAML.parse(match[1])
+      if _.has(@frontMatter, 'start')
+        d = new Date(@frontMatter.start)
         @set('created_at', "#{d}")
     @set_duration()
     @set_progress()
+
+  formatted_description: ->
+    output = "### #{@get('title')}\n"
+    output += "#### Start Date: #{(new Date(@get('created_at'))).toDateString()}\n"
+    output += "#### Due On: #{(new Date(@get('due_on'))).toDateString()}\n" if @get('due_on')?
+    output += @get('description') || ""
+    console.log output
+    marked(output)
 
   set_position: (baseTime) ->
     left = atlas.helpers.time_position(@get('created_at'),baseTime)
@@ -89,6 +98,13 @@ atlas.MilestoneView = Backbone.View.extend
     content = JST['milestone'](@model.toJSON())
     @$el.html content
     @$el.css({width:@model.get('width'),left:@model.get('left')})
+    drop = new Drop
+      target: @$el[0]
+      classes: 'drop-theme-arrows'
+      content: @model.formatted_description()
+      position: 'bottom center'
+      openOn: 'hover'
+      constrainToWindow: true
     @
 
 atlas.MilestonesView = Backbone.View.extend
