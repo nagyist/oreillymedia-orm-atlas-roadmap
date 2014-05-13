@@ -1,15 +1,10 @@
-classes =
+atlas =
   helpers:
     today: new Date()
     day_width: 25
-    time_position: (time,origin) ->
-      diff = (new Date(time)).getTime() - origin
+    time_position: (time,baseTime) ->
+      diff = (new Date(time)).getTime() - baseTime
       @days(diff)*@day_width
-    set_width: (model) ->
-      if model.duration?
-        @days(model.duration)*@day_width
-      else
-        10*@day_width
     days: (time) ->
       int_time = if typeof time is 'number' then time else time.getTime()
       Math.floor int_time/1000/60/60/24
@@ -38,10 +33,9 @@ classes =
       d.moveToMonth(d.getMonth()+1)
 
 
-classes.Milestone = Backbone.Model.extend
+atlas.Milestone = Backbone.Model.extend
   initialize: ->
     @parse_frontmatter()
-
 
   parse_frontmatter: ->
     # see if there is frontmatter
@@ -54,6 +48,10 @@ classes.Milestone = Backbone.Model.extend
     @set_duration()
     @set_progress()
 
+  set_position: (baseTime) ->
+    left = atlas.helpers.time_position(@get('created_at'),baseTime)
+    width = atlas.helpers.days(@get('duration'))*atlas.helpers.day_width
+    @set({left:left, width:width})
 
   set_progress: ->
     open = @get('open_issues')
@@ -74,75 +72,72 @@ classes.Milestone = Backbone.Model.extend
       time_diff = 10*24*60*60*1000
     @set('duration',time_diff)
 
-classes.Milestones = Backbone.Collection.extend
-  model: classes.Milestone
+atlas.Milestones = Backbone.Collection.extend
+  model: atlas.Milestone
   comparator: 'created_at'
   earliest: -> @min (m) -> (new Date(m.get('created_at'))).getTime()
   latest: -> @max (m) -> (new Date(m.get('created_at'))).getTime()
+  origin: -> new Date(@earliest().get('created_at')).getTime()
 
-classes.MilestoneView = Backbone.View.extend
-  initialize: ->
-    @render().el
-
-  left_position: ->
-    classes.helpers.time_position(@model.get('created_at'),origin)
+atlas.MilestoneView = Backbone.View.extend
+  className: -> "milestone " + @model.get('state')
+  initialize: -> @model.set_position(@model.collection.origin())
 
   render: ->
     # Go through each row, if it has children, see if the position of this view
     # would overlap with the last child of the row.
     content = JST['milestone'](@model.toJSON())
-    for row in $("#wrapper .row")
-      if $(row).children().length is 0
-        $(row).append content
-        break
-      else if $(row).children().last().position().left+$(row).children().last().width() < @left_position()
-        $(row).append content
-        break
-
+    @$el.html content
+    @$el.css({width:@model.get('width'),left:@model.get('left')})
     @
 
-classes.MilestonesView = Backbone.View.extend
+atlas.MilestonesView = Backbone.View.extend
   el: '#wrapper'
   initialize: ->
     _.each _.range(0,@collection.length / 3), -> $("#wrapper").append("<div class='row'/>")
     @render().el
 
-  render: ->
-    @collection.sort()
-    @collection.each (model) ->
-      new classes.MilestoneView model:model
-
+  renderCalendar: ->
     # This _should_ work.
     last_date = new Date(@collection.latest().get('due_on') || @collection.latest().get('created_at'))
+    last_timestamp = last_date.getTime()
 
-    earliest_month = classes.helpers.firstOfMonth(new Date(@collection.earliest().get('created_at')))
+    this_month = atlas.helpers.firstOfMonth(@collection.earliest().get('created_at'))
 
-    this_month = earliest_month
+    # Render the calendar, setting the width of each month based on time
+    # between start of this month and the end of the next. Append to the page
+    # and increment the month
+    while(this_month.getTime() < last_timestamp)
+      next_month = atlas.helpers.nextMonth(this_month)
 
-    # Render the calendar
-    while(this_month.getTime() < last_date.getTime())
-      next_month = classes.helpers.nextMonth(this_month)
+      left = atlas.helpers.time_position(this_month, @collection.origin())
+      width = atlas.helpers.days(next_month.getTime() - this_month.getTime())*atlas.helpers.day_width
 
-      left = classes.helpers.time_position(this_month, origin)
-      # the width should be the length of days between these two months
-      width = classes.helpers.days(next_month.getTime() - this_month.getTime())*classes.helpers.day_width
-
-      # Render the month to the page
       $('.calendar').append JST['month']({month:this_month.getMonthName(), width:width, left:left})
-      # advance the month for the loop
+
       this_month = next_month
 
+  render: ->
+    t = @
+    @collection.sort()
+    @collection.each (model) ->
+      view = new atlas.MilestoneView model:model
+      for row in $("#wrapper .row")
+        if $(row).children().length is 0
+          $(row).append view.render().el
+          break
+        else if $(row).children().last().position().left+$(row).children().last().width() < model.get('left')
+          $(row).append view.render().el
+          break
+    @renderCalendar()
 
     setTimeout (->
-      $('#wrapper').scrollLeft(classes.helpers.days(classes.helpers.today)*classes.helpers.day_width)
-
-      classes.helpers.setRowHeight()
+      $('#wrapper').scrollLeft(atlas.helpers.days(atlas.helpers.today)*atlas.helpers.day_width)
+      atlas.helpers.setRowHeight()
     ), 100
     @
 
-window.classes = classes
-
 $ ->
-  window.milestones = new classes.Milestones(data.milestones)
-  window.origin = new Date(milestones.first().get('created_at')).getTime()
-  milestonesView = new classes.MilestonesView collection:milestones
+  milestones = new atlas.Milestones(data.milestones)
+  origin = new Date(milestones.first().get('created_at')).getTime()
+  milestonesView = new atlas.MilestonesView collection:milestones

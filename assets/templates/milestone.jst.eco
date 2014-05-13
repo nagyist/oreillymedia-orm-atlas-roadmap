@@ -1,9 +1,7 @@
-<div class="milestone <%= @state %>" style="width:<%= classes.helpers.set_width(@)%>px;left:<%= classes.helpers.time_position(@created_at,origin) %>px">
-  <h3><%= @title %></h3>
-  <a class="permalink" href="https://github.com/oreillymedia/orm-atlas/issues?milestone=<%= @number %>"><i class="glyphicons link"></i></a>
+<h3><%= @title %></h3>
+<a class="permalink" href="https://github.com/oreillymedia/orm-atlas/issues?milestone=<%= @number %>"><i class="glyphicons link"></i></a>
 
-  <div class="progress-bar">
-    <span class="progress" style="width:<%=@progress%>%;">&nbsp;</span>
-    <span class="progress-percent"><%=@progress.toFixed(0)%>%</span>
-  </div>
+<div class="progress-bar">
+  <span class="progress" style="width:<%=@progress%>%;">&nbsp;</span>
+  <span class="progress-percent"><%=@progress.toFixed(0)%>%</span>
 </div>
