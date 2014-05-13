@@ -3,5 +3,7 @@
 //= require libraries/backbone
 //= require libraries/date
 //= require libraries/yaml
+//= require libraries/drop
+//= require libraries/select
 //= require_tree ../templates
 //= require roadmap
