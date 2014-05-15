@@ -1,3 +1,9 @@
 <div class="month" style="left:<%= @left %>px;width:<%= @width %>px;">
-  <%= @month %>
+  <% while @this_month < @next_month: %>
+  <% if @this_month.getDay() is 0: %>
+  <div class="week-start" style="left:<%= map.helpers.day_width*@this_month.getDate() %>px"></div>
+  <% end %>
+  <% @this_month.add(1).day() %>
+  <% end %>
+  <h5><%= @month %></h5>
 </div>

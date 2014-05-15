@@ -126,9 +126,10 @@ map.MilestonesView = Backbone.View.extend
       next_month = map.helpers.nextMonth(this_month)
 
       left = map.helpers.time_position(this_month, @collection.origin())
-      width = map.helpers.days(next_month.getTime() - this_month.getTime())*map.helpers.day_width
+      width = Date.getDaysInMonth(this_month.getFullYear(),this_month.getMonth())*map.helpers.day_width
 
-      $('.calendar').append JST['month']({month:this_month.getMonthName(), width:width, left:left})
+      $('.calendar').append JST['month']({month:this_month.getMonthName(), width:width, left:left, this_month:new Date(this_month), next_month:next_month})
+
 
       this_month = next_month
     $('.calendar').append JST['today']({left: map.helpers.time_position((new Date()).getTime(), @collection.origin())})
@@ -150,12 +151,13 @@ map.MilestonesView = Backbone.View.extend
     setTimeout (->
       $('#wrapper').scrollLeft((->
         l = $('.calendar .today').css('left');
-        console.log l
         l.replace(/px/,"") - $(window).width()/2
       )())
       map.helpers.setRowHeight()
     ), 100
     @
+
+window.map = map
 
 $ ->
   milestones = new map.Milestones(data.milestones)

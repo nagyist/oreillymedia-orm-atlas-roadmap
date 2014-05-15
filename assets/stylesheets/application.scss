@@ -52,13 +52,25 @@ body {
   width: 100%;
   top: 0;
   bottom: 0;
-  text-align: center;
-  font-weight: 600;
 
-  .month {
+  h5 {
+    text-align: center;
+    font-weight: 600;
+    position: relative;
+    z-index: 5000;
+    margin: 0;
+    font-size: 1.2em;
+    padding: 0.25em;
+    background: $gray;
+  }
+
+  .month, .week-start, .today {
     height: 100%;
     position: absolute;
     display: block;
+  }
+
+  .month {
     border-left: 1px solid $defaultBorderColor;
     border-right: 1px solid $defaultBorderColor;
     background: white;
@@ -68,10 +80,12 @@ body {
     }
   }
 
+  .week-start {
+    border-left: 1px solid $lighter_gray;
+    width: 4px;
+  }
+
   .today {
-    height: 100%;
-    position: absolute;
-    display: block;
     border-left: 1px solid $blue;
     width: 1px;
 
