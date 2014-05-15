@@ -1,0 +1,1 @@
+<div class="today" style="left:<%= @left %>px"><p>today</p></div>

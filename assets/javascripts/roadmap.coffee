@@ -131,6 +131,7 @@ map.MilestonesView = Backbone.View.extend
       $('.calendar').append JST['month']({month:this_month.getMonthName(), width:width, left:left})
 
       this_month = next_month
+    $('.calendar').append JST['today']({left: map.helpers.time_position((new Date()).getTime(), @collection.origin())})
 
   render: ->
     t = @
@@ -147,7 +148,11 @@ map.MilestonesView = Backbone.View.extend
     @renderCalendar()
 
     setTimeout (->
-      $('#wrapper').scrollLeft(map.helpers.days(map.helpers.today)*map.helpers.day_width)
+      $('#wrapper').scrollLeft((->
+        l = $('.calendar .today').css('left');
+        console.log l
+        l.replace(/px/,"") - $(window).width()/2
+      )())
       map.helpers.setRowHeight()
     ), 100
     @
