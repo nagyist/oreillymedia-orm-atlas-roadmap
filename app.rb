@@ -19,7 +19,6 @@ class AtlasRoadmap < Sinatra::Base
 
     @data = Jbuilder.encode do |json|
       json.milestones @milestones do |milestone|
-        puts milestone.created_at
         json.open_issues    milestone.open_issues
         json.closed_issues  milestone.closed_issues
         json.state          milestone.state
