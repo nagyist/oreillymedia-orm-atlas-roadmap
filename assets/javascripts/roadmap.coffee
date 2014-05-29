@@ -50,7 +50,7 @@ map.Milestone = Backbone.Model.extend
     @set_progress()
 
   formatted_description: ->
-    output = "### #{@get('title')}\n"
+    output = "### <a href='https://github.com/oreillymedia/orm-atlas/issues?milestone=#{@get('number')}' target='_blank'>#{@get('title')}</a>\n"
     output += "#### Start Date: #{(new Date(@get('created_at'))).toDateString()}\n"
     output += "#### Due On: #{(new Date(@get('due_on'))).toDateString()}\n" if @get('due_on')?
     output += @get('description') || ""

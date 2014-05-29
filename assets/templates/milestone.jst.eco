@@ -1,5 +1,4 @@
 <h3><%= @title %></h3>
-<a class="permalink" href="https://github.com/oreillymedia/orm-atlas/issues?milestone=<%= @number %>"><i class="glyphicons link"></i></a>
 
 <div class="progress-bar">
   <span class="progress" style="width:<%=@progress%>%;">&nbsp;</span>
