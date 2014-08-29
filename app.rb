@@ -14,7 +14,8 @@ class AtlasRoadmap < Sinatra::Base
     repo_name = 'oreillymedia/orm-atlas'
     github_organization_authenticate!('oreillymedia')
 
-    @milestones = github_user.api.list_milestones(repo_name) + github_user.api.list_milestones(repo_name, {state:"closed"})
+    @milestones = github_user.api.list_milestones(repo_name,{per_page:100}) + github_user.api.list_milestones(repo_name, {state:"closed",per_page:100})
+
     @releases = github_user.api.releases(repo_name)
 
     @data = Jbuilder.encode do |json|
