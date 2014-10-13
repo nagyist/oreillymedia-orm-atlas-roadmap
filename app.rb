@@ -10,6 +10,10 @@ class AtlasRoadmap < Sinatra::Base
 
   register Sinatra::Auth::Github
 
+  get '/test' do
+    erb :test
+  end
+
   get '/' do
     repo_name = ENV['PROJECT_PATH'] || 'oreillymedia/orm-atlas'
     github_organization_authenticate!('oreillymedia')
