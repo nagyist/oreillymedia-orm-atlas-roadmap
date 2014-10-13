@@ -20,17 +20,18 @@ class map.MilestonesView extends Backbone.View
 
       left = map.helpers.time_position(this_month, @collection.origin())
       width = Date.getDaysInMonth(this_month.getFullYear(),this_month.getMonth())*map.helpers.day_width
-
+  
       $('.calendar').append JST['templates/month']({month:this_month.getMonthName(), width:width, left:left, this_month:new Date(this_month), next_month:next_month})
 
-
       this_month = next_month
+    
     $('.calendar').append JST['templates/today']({left: map.helpers.time_position((new Date()).getTime(), @collection.origin())})
 
   render: ->
     t = @
     @collection.sort()
     @collection.each (model) ->
+      console.log model.get("title")
       view = new map.MilestoneView model:model
       for row in $("#wrapper .row")
         if $(row).children().length is 0
