@@ -8,7 +8,11 @@ class AtlasRoadmap < Sinatra::Base
     :client_id => ENV['GITHUB_CLIENT_ID'],
   }
 
+  # Setup the Asset Pipeline
+  set :assets_precompile, %w(application.js application.css *.png *.jpg *.svg *.eot *.ttf *.woff)
   register Sinatra::AssetPipeline
+
+  # Setup GitHub OAuth
   register Sinatra::Auth::Github
 
   get '/test' do
