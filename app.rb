@@ -8,6 +8,7 @@ class AtlasRoadmap < Sinatra::Base
     :client_id => ENV['GITHUB_CLIENT_ID'],
   }
 
+  register Sinatra::AssetPipeline
   register Sinatra::Auth::Github
 
   get '/test' do
