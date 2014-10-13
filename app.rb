@@ -11,7 +11,7 @@ class AtlasRoadmap < Sinatra::Base
   register Sinatra::Auth::Github
 
   get '/' do
-    repo_name = 'oreillymedia/orm-atlas'
+    repo_name = ENV['PROJECT_PATH'] || 'oreillymedia/orm-atlas'
     github_organization_authenticate!('oreillymedia')
 
     @milestones = github_user.api.list_milestones(repo_name,{per_page:100}) + github_user.api.list_milestones(repo_name, {state:"closed",per_page:100})
