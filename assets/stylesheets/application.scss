@@ -17,15 +17,14 @@ body {
   margin: auto;
 }
 
-.navbar,
+.navbar .brand {
+  margin-left: 20px;
+}
+
 #releases {
   max-width: 68em;
   margin: 1em auto;
   @include box-sizing(border-box);
-}
-
-.navbar {
-  padding: 0 0.5em;
 }
 
 #wrapper {
@@ -34,7 +33,7 @@ body {
   @include outer-container();
   width: 100%;
   max-width: 100%;
-  padding: 2em 0 0.5em;
+  padding: 3em 0 0.5em;
   overflow: auto;
 
   .row {
@@ -44,8 +43,8 @@ body {
   }
 }
 
-
 .calendar {
+  
   position: absolute;
   height: 100%;
   width: 100%;
@@ -59,7 +58,7 @@ body {
     z-index: 5000;
     margin: 0;
     font-size: 1.2em;
-    padding: 0.25em;
+    padding: 0.5em 0.25em;
     background: $gray;
   }
 

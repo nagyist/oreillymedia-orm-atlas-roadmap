@@ -11,6 +11,7 @@ gem 'kramdown'
 
 gem 'sprockets'
 gem 'coffee-script'
+gem 'sass'
 gem 'eco'
 
 group :development do

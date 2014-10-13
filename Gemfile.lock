@@ -82,6 +82,7 @@ DEPENDENCIES
   json
   kramdown
   rack-flash3
+  sass
   shotgun
   sinatra
   sinatra-asset-pipeline
